@@ -17,12 +17,12 @@ library(sf)
 
 dem = rast("data/dem.tif")
 outlet = c(5135110, 2121050) 
-fim_rn = delineate(dem, outlet = outlet)
+fim_rn = delineate(dem, outlet = outlet, threshold = 8e6)
 
 # create streams for visualisaion
 fim_st = vectorise_stream(fim_rn)
 
 ggplot() + geom_spatraster(data = dem) + scale_fill_scico(palette = 'turku') + 
 	geom_sf(data = fim_st, color = '#88aaff')
-# writeRaster(fim_rn, file="output/fim.grd", overwrite = TRUE, gdal=c("COMPRESS=DEFLATE"))
+writeRaster(fim_rn, file="output/fim.grd", overwrite = TRUE, gdal=c("COMPRESS=DEFLATE"))
 
